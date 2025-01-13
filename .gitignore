@@ -1,0 +1,12 @@
+# ASP.Net Core Web API
+bin/
+obj/
+wwwroot/
+appsettings.Development.json
+appsettings.json
+
+# React
+node_modules/
+build/
+.env
+*.log
