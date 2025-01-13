@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The Course Management System is a web application developed using ASP.Net Core MVC. This project aims to provide basic CRUD operations and their representation on the front end for a basic level course management system.
+The Course Management System is a web application developed using **ASP.Net Core MVC**. This project aims to provide basic CRUD operations and their representation on the front end for a basic level course management system.
 
 ## Technical Features
 
@@ -28,5 +28,4 @@ The Course Management System is a web application developed using ASP.Net Core M
 
 ## Alternate Version
 The Course Management System also has a version where the back-end is rewritten as a Web API using ASP.Net Core, and the front-end is developed using React. You can find it here:
-
-<a href="https://github.com/mahmudbera/CourseManagementSystemWebApi" target="_blank"> </a>
+[Course Management System Web Api](https://github.com/mahmudbera/CourseManagementSystemWebApi)
