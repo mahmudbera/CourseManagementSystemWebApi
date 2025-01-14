@@ -49,6 +49,9 @@ namespace ManagementSystem.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest("Invalid data.");
+            
+            if (enrollmentDto.Grade < 0 || enrollmentDto.Grade > 100)
+                return BadRequest("Invalid grade.");
 
             var enrollment = await _manager.EnrollmentService.GetEnrollmentById(id, false);
             if (enrollment == null)

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import {
   Container,
@@ -39,6 +39,7 @@ const Enrollment = () => {
     enrollmentDate: "",
     grade: "",
   });
+  const gradeInputRef = useRef();
 
   const [filteredEnrollments, setFilteredEnrollments] = useState([]);
 
@@ -147,15 +148,15 @@ const Enrollment = () => {
     }
   };
 
-  const handleUpdateGrade = async () => {
+  const handleUpdateGrade = async (grade) => {
     try {
       const response = await axios.put(
         `http://localhost:5168/api/enrollment/${gradeForm.enrollmentId}`,
-        gradeForm
+        {...gradeForm, grade: grade}
       );
       const updatedEnrollments = enrollments.map((e) =>
         e.enrollmentId === gradeForm.enrollmentId
-          ? { ...e, grade: gradeForm.grade }
+          ? { ...e, grade: grade }
           : e
       );
       toast.success(response.data?.message);
@@ -385,15 +386,20 @@ const Enrollment = () => {
             <Form.Group className="mb-3">
               <Form.Label>Grade</Form.Label>
               <Form.Control
+                ref={gradeInputRef}
                 type="number"
-                step="0.1"
-                min="0"
+                step="1"
+                min="0" 
                 max="100"
-                value={gradeForm.grade}
-                onChange={(e) =>
-                  setGradeForm({ ...gradeForm, grade: e.target.value })
-                }
                 required
+                onInput={(e) => {
+                  if (e.target.value > 100) {
+                    e.target.value = 100;
+                  }
+                  if (e.target.value <= 0){
+                    e.target.value = 0;
+                  }
+                }}
               />
             </Form.Group>
           </Form>
@@ -402,7 +408,7 @@ const Enrollment = () => {
           <Button variant="secondary" onClick={() => setShowGradeModal(false)}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleUpdateGrade}>
+          <Button variant="primary" onClick={() => handleUpdateGrade(gradeInputRef.current.value)}>
             Save Changes
           </Button>
         </Modal.Footer>

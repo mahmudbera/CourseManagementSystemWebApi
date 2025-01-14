@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Home = () => {
-  const [stats, setStats] = useState({
-    activeCourses: 0,
-    activeStudents: 0,
-    activeClassrooms: 0,
-    totalInstructors: 0,
-  });
+  const [stats, setStats] = useState([
+    { title: "Courses", count: 0 , color: "error"},
+    { title: "Students", count: 0, color: "success" },
+    { title: "Classrooms", count: 0, color: "info" },
+    { title: "Instructors", count: 0, color: "warning" },
+  ]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -18,12 +18,12 @@ const Home = () => {
         const response = await axios.get(
           "http://localhost:5168/api/home/dashboard"
         );
-        setStats({
-          activeCourses: response.data.activeCourses,
-          activeStudents: response.data.activeStudents,
-          activeClassrooms: response.data.activeClassrooms,
-          totalInstructors: response.data.totalInstructors,
-        });
+        setStats([
+          { title: "Courses", count: response.data.activeCourses, color: "error" },
+          { title: "Students", count: response.data.activeStudents, color: "success" },
+          { title: "Classrooms", count: response.data.activeClassrooms, color: "info" },
+          { title: "Instructors", count: response.data.totalInstructors, color: "warning" },
+        ]);
         setLoading(false);
       } catch (err) {
         setError("Failed to load dashboard statistics");
@@ -73,7 +73,6 @@ const Home = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-
         {/* Main Content */}
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -88,46 +87,9 @@ const Home = () => {
 
           {/* Stats Cards */}
           <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-4">
-            <div className="col">
-              <div className="card h-100 border-primary">
-                <div className="card-body">
-                  <h5 className="card-title">Active Courses</h5>
-                  <p className="card-text display-4">
-                    {loading ? "..." : stats.activeCourses}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card h-100 border-success">
-                <div className="card-body">
-                  <h5 className="card-title">Active Students</h5>
-                  <p className="card-text display-4">
-                    {loading ? "..." : stats.activeStudents}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card h-100 border-info">
-                <div className="card-body">
-                  <h5 className="card-title">Active Classes</h5>
-                  <p className="card-text display-4">
-                    {loading ? "..." : stats.activeClassrooms}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card h-100 border-warning">
-                <div className="card-body">
-                  <h5 className="card-title">Total Instructors</h5>
-                  <p className="card-text display-4">
-                    {loading ? "..." : stats.totalInstructors}
-                  </p>
-                </div>
-              </div>
-            </div>
+            {stats.map((item, index) => {
+              return <HomeCard key={index} title={item.title} count={loading ? "..." : item.count} color={item.color} />
+            })}
           </div>
 
           {/* Quick Access Section */}
@@ -193,6 +155,19 @@ const Home = () => {
           transform: translateY(-5px);
         }
       `}</style>
+    </div>
+  );
+};
+
+const HomeCard = ({ title, count, color }) => {
+  return (
+    <div className="col">
+      <div className={`card h-100 border-${color}`}>
+        <div className="card-body">
+          <h5 className="card-title">{title}</h5>
+          <p className="card-text display-4">{count}</p>
+        </div>
+      </div>
     </div>
   );
 };
