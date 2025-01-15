@@ -9,5 +9,6 @@ namespace Services.Contracts
 		Task<Enrollment?> GetEnrollmentById(int id, bool trackChanges);
 		Task<(bool isSuccess, string message)> UpdateOneEnrollmentGrade(EnrollmentDtoForGrade enrollmentDto);
 		Task<(bool isSuccess, string message)> AddEnrollment(Enrollment enrollment);
+		Task<(bool isSuccess, string message)> DeleteEnrollment(int id);
 	}
 }

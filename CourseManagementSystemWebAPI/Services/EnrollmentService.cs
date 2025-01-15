@@ -48,5 +48,28 @@ namespace Services.Contracts
             else
                 return (false, "Failed to update grade.");
         }
+
+        public async Task<(bool isSuccess, string message)> DeleteEnrollment(int id)
+        {
+            try
+            {
+                var enrollment = await _manager.Enrollment.GetEnrollmentById(id, true);
+                
+                if (enrollment is null)
+                    return (false, "Enrollment not found.");
+
+                _manager.Enrollment.DeleteEnrollment(enrollment);
+                bool result = await _manager.SaveAsync();
+
+                if (result)
+                    return (true, "Enrollment successfully deleted.");
+                else
+                    return (false, "Failed to delete enrollment.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"An error occurred while deleting enrollment: {ex.Message}");
+            }
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace Repositories.Contracts
 		Task<Enrollment?> GetEnrollmentById(int id, bool trackChanges);
 		void CreateEnrollment(Enrollment enrollment);
 		void UpdateOneEnrollment(Enrollment enrollment);
+		void DeleteEnrollment(Enrollment enrollment);
 	}
 }

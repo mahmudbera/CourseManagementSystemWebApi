@@ -24,5 +24,7 @@ namespace Repositories
                 .Include(e => e.Student)
                 .SingleOrDefaultAsync();
         }
+
+        public void DeleteEnrollment(Enrollment enrollment) => Remove(enrollment);
     }
 }

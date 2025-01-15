@@ -65,5 +65,16 @@ namespace ManagementSystem.Controllers
 
             return BadRequest(new { Success = isSuccess, Message = message });
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEnrollment(int id)
+        {
+            var (isSuccess, message) = await _manager.EnrollmentService.DeleteEnrollment(id);
+
+            if (isSuccess)
+                return Ok(new { Success = isSuccess, Message = message });
+
+            return BadRequest(new { Success = isSuccess, Message = message });
+        }
     }
 }
